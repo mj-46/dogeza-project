@@ -12,14 +12,40 @@
 
 ## 使い方
 
-```bash
-# 1. 取得
-mkdir -p ~/workspace && cd ~/workspace
-git clone https://github.com/j-matsui46/robot-dogeza.git
-cd robot-dogeza
+### 0. 事前準備：Isaac Sim のインストール
 
-# 2. 実行（Isaac Sim が起動し、確認用シーンを表示して 5 秒後に終了）
-~/isaacsim/python.sh scripts/run.py
+[NVIDIA Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/) 6.1.0 を `~/isaacsim` にインストールしてください。
+Python は Isaac Sim に付属のもの（`~/isaacsim/python.sh`）を使うため、他のインストールは不要です。
+
+### 1. フォルダ配置
+
+`robot-dogeza` と `unitree_ros` は**同じフォルダの中**に置いてください。
+
+```
+~/
+├── isaacsim/            # Isaac Sim 本体
+└── workspace/
+    ├── dogeza-project/    # このリポジトリ
+    └── unitree_ros/     # Unitree G1 のモデル（URDF）
+```
+
+### 2. 取得
+
+```bash
+mkdir -p ~/workspace && cd ~/workspace
+
+# このリポジトリ
+git clone https://github.com/j-matsui46/dogeza-project.git
+
+# Unitree G1 のモデル（URDF）
+git clone --depth 1 https://github.com/unitreerobotics/unitree_ros.git
+```
+
+### 3. 実行
+
+```bash
+cd ~/workspace/dogeza-project
+~/isaacsim/python.sh scripts/run.py --duration 10
 ```
 
 ## フォルダ構成
@@ -44,7 +70,7 @@ robot-dogeza/
 
 - [x] Python スクリプトから Isaac Sim を起動・終了する
 - [x] ステージを作成し、確認用のシーンを表示する
-- [ ] Unitree G1 を読み込んで表示する
+- [x] Unitree G1 を読み込んで表示する
 - [ ] 土下座の姿勢データ（キーフレーム）を再生する
 - [ ] 土下座の様子を動画で撮影し、YouTube に投稿する
 - [ ] 強化学習で土下座に特化した全身制御を作る

@@ -1,11 +1,17 @@
 import time
 
-from dogeza import scene
+from omni.kit.viewport.utility import get_active_viewport
+
+from dogeza import g1, scene
 
 
 def run(simulation_app, duration):
+    g1_usd_path = g1.convert_urdf_to_usd()
+    stage = scene.build_scene()
+    g1.add_g1(stage, g1_usd_path)
 
-    scene.build_scene()
+    viewport = get_active_viewport()
+    viewport.camera_path = "/World/Cameras/FrontLeft"
 
     print(f"[dogeza] {duration} 秒後に終了します。")
     start = time.time()
