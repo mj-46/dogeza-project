@@ -3,18 +3,20 @@ from pathlib import Path
 import omni.timeline
 from omni.kit.viewport.utility import get_active_viewport
 
-from dogeza.g1 import control, keyframes, loader, player
+from dogeza.g1 import control, keyframes, loader, physics_player
 from dogeza.scene import builder, runner
 from isaac_video.recorder import VideoRecorder
 
 CAMERA = "/World/Cameras/FrontLeft"
 VIDEO_DIR = Path(__file__).resolve().parents[1] / "isaac_video" / "output"
+ROOT_ASSIST = 0.1  # 腰の補助（0 = 純粋な物理, 1 = 強く補助）
 
 
 def run(simulation_app, duration, record=False):
     g1_usd_path = loader.convert_urdf_to_usd()
     stage = builder.build_scene()
     loader.add_g1(stage, g1_usd_path)
+    loader.add_contact_shapes(stage)
 
     viewport = get_active_viewport()
     viewport.camera_path = "/World/Cameras/FrontLeft"
@@ -26,7 +28,12 @@ def run(simulation_app, duration, record=False):
 
     # 立つ → 土下座 → 立つ の動きを読み込む
     motion = keyframes.load_motion("unitree_g1_dogeza_motion.json")
-    step = player.KeyframePlayer(articulation, motion)
+
+    # キネマティックな再生
+    # step = player.KeyframePlayer(articulation, motion)
+
+    # 物理での再生
+    step = physics_player.PhysicsPlayer(articulation, motion, root_assist=ROOT_ASSIST)
 
     # 実行（録画するかどうかで、時間の進め方だけが変わる）
     if record:

@@ -47,3 +47,43 @@ def add_g1(stage, usd_path, position=(0.0, 0.0, 0.793)):
     prim.GetVariantSets().GetVariantSet("Physics").SetVariantSelection("physx")
     UsdGeom.XformCommonAPI(prim).SetTranslate(Gf.Vec3d(*position))
     return prim
+
+
+# 当たり判定を足すリンクと、その箱の中心・大きさ（リンク座標系, m）
+# 元の URDF では手に当たり判定がなく、足は足裏の小さな球 4 つだけなので、床に手・足の甲がつく土下座ではすり抜ける
+CONTACT_BOXES = {
+    "left_rubber_hand": ((0.066, -0.0145, 0.010), (0.132, 0.067, 0.106)),
+    "right_rubber_hand": ((0.066, 0.0145, 0.010), (0.132, 0.067, 0.106)),
+    "left_ankle_roll_link": ((0.038, 0.0, -0.0055), (0.208, 0.076, 0.059)),
+    "right_ankle_roll_link": ((0.038, 0.0, -0.0055), (0.208, 0.076, 0.059)),
+}
+
+
+def add_contact_shapes(stage):
+    """手と足に箱形の当たり判定を足す（物理の再生を始める前に呼ぶ）。"""
+    from pxr import Usd, UsdPhysics
+
+    g1 = stage.GetPrimAtPath("/World/G1")
+    links = {
+        p.GetName(): p for p in Usd.PrimRange(g1) if p.HasAPI(UsdPhysics.RigidBodyAPI)
+    }
+    for name, (center, size) in CONTACT_BOXES.items():
+        if name not in links:
+            print(
+                f"[dogeza] リンク {name} が見つからないため、当たり判定を追加できませんでした。"
+            )
+            continue
+        if links[name].IsInstance():  # インスタンス（書き換え禁止）なら
+            links[name].SetInstanceable(False)  # 共有をやめて、書き換えられるようにする
+        box = UsdGeom.Cube.Define(
+            stage, links[name].GetPath().AppendChild("ContactBox")
+        )
+        box.CreateSizeAttr(1.0)
+        box.CreatePurposeAttr(UsdGeom.Tokens.guide)  # 見た目には表示しない
+        xf = UsdGeom.XformCommonAPI(box)
+        xf.SetTranslate(Gf.Vec3d(*center))
+        xf.SetScale(Gf.Vec3f(*size))
+        UsdPhysics.CollisionAPI.Apply(box.GetPrim())
+    print(
+        f"[dogeza] 手と足に当たり判定を追加しました: {[n for n in CONTACT_BOXES if n in links]}"
+    )
