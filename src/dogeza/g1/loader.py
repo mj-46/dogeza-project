@@ -4,7 +4,7 @@ import omni.kit.app
 from pxr import Gf, UsdGeom
 
 # ---- ファイルの場所 ----
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[3]
 # Unitree 公式の G1 モデル（リポジトリと同じ階層の unitree_ros にクローンしておく）
 G1_URDF = (
     REPO_ROOT.parent
@@ -44,5 +44,6 @@ def add_g1(stage, usd_path, position=(0.0, 0.0, 0.793)):
     """変換した G1 をステージに配置する（原点に立ち、+X 方向を向く）。"""
     prim = stage.DefinePrim("/World/G1", "Xform")
     prim.GetReferences().AddReference(usd_path)
+    prim.GetVariantSets().GetVariantSet("Physics").SetVariantSelection("physx")
     UsdGeom.XformCommonAPI(prim).SetTranslate(Gf.Vec3d(*position))
     return prim

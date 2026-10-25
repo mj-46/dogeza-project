@@ -1,5 +1,6 @@
 import argparse
 import sys
+import traceback
 from pathlib import Path
 
 from isaacsim import SimulationApp
@@ -18,6 +19,8 @@ from dogeza import main
 
 try:
     main.run(simulation_app, duration)
+except Exception:
+    traceback.print_exc()
+    raise
 finally:
-    # ---- 終了 ----
     simulation_app.close()
