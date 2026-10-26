@@ -51,19 +51,27 @@ cd ~/workspace/dogeza-project
 ## フォルダ構成
 
 ```
-robot-dogeza/
-├── assets/            # データ（土下座の姿勢など）
-│   └── keyframes/
+dogeza-project/
+├── assets/
+│ ├── keyframes/
+│ │ └── unitree_g1_dogeza_motion.json # 土下座のお手本（0.1 秒ごとの姿勢）
+│ └── robots/g1/ # 変換した G1 の USD（自動生成・Git 管理外）
 ├── scripts/
-│   └── run.py         # Isaac Sim の起動と終了だけを担当する入口
-├── src/
-│   └── dogeza/        # Isaac Sim 起動後の処理（シーン作成・ロボット・動作）
-│       ├── __init__.py
-│       ├── main.py    # 起動後に呼ばれる処理の本体
-│       └── scene.py   # ステージ・床・照明・確認用オブジェクト・カメラ
-├── pyproject.toml
-├── LICENSE
-└── README.md
+│ └── run.py # Isaac Sim の起動と終了だけを担当する入口
+└── src/
+├── dogeza/ # 土下座プロジェクト本体（Isaac Sim 起動後の処理）
+│ ├── main.py # 全体の流れ（舞台 → G1 → 動作 → 実行）
+│ ├── scene/
+│ │ ├── builder.py # ステージ・物理・床・照明・カメラ
+│ │ └── runner.py # 実際の経過時間で動かす（録画しないとき）
+│ └── g1/
+│ ├── loader.py # URDF → USD 変換、G1 と手足の当たり判定の追加
+│ ├── control.py # 関節の操作（Articulation の取得、姿勢の設定）
+│ ├── keyframes.py # キーフレームの読み込みと補間
+│ ├── kinematics_player.py # 姿勢をそのまま再生する
+│ └── physics_player.py # 姿勢を目標に、物理で動かす
+└── isaac_video/ # 録画機能（土下座に依存しない独立した部品）
+└── recorder.py # カメラ映像を MP4 に保存する
 ```
 
 ## 現在の状況(仮)

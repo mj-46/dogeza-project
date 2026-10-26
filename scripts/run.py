@@ -16,9 +16,10 @@ args = parser.parse_args()
 # isaac simの起動
 simulation_app = SimulationApp({"headless": False})
 
-from dogeza import main
 
 try:
+    from dogeza import main
+
     main.run(simulation_app, args.duration, args.record)
 except Exception:
     traceback.print_exc()

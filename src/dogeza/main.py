@@ -19,7 +19,8 @@ def run(simulation_app, duration, record=False):
     loader.add_contact_shapes(stage)
 
     viewport = get_active_viewport()
-    viewport.camera_path = "/World/Cameras/FrontLeft"
+    if viewport is not None:
+        viewport.camera_path = CAMERA
 
     # 物理の再生を開始
     omni.timeline.get_timeline_interface().play()
@@ -30,7 +31,7 @@ def run(simulation_app, duration, record=False):
     motion = keyframes.load_motion("unitree_g1_dogeza_motion.json")
 
     # キネマティックな再生
-    # step = player.KeyframePlayer(articulation, motion)
+    # step = kinematics_player.KeyframePlayer(articulation, motion)
 
     # 物理での再生
     step = physics_player.PhysicsPlayer(articulation, motion, root_assist=ROOT_ASSIST)

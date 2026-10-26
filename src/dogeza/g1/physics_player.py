@@ -56,14 +56,18 @@ class PhysicsPlayer:
         self.root_assist = root_assist
         self.timeline = omni.timeline.get_timeline_interface()
         self.last_report = -1
+        self.dof_names = (
+            articulation.dof_names
+        )  # 関節名の並び順（毎コマ使うので最初に 1 回だけ取得）
 
         # 関節のモーターの強さを設定
-        names = articulation.dof_names
         stiffness = [
-            next(k for pat, k, _ in GAINS if re.fullmatch(pat, n)) for n in names
+            next(k for pat, k, _ in GAINS if re.fullmatch(pat, n))
+            for n in self.dof_names
         ]
         damping = [
-            next(d for pat, _, d in GAINS if re.fullmatch(pat, n)) for n in names
+            next(d for pat, _, d in GAINS if re.fullmatch(pat, n))
+            for n in self.dof_names
         ]
         articulation.set_dof_gains(
             stiffnesses=np.array([stiffness]), dampings=np.array([damping])
@@ -77,9 +81,7 @@ class PhysicsPlayer:
         pose = keyframes.pose_at(self.motion, t)
 
         # 関節：目標角度だけをモーターに渡す（実際の動きは物理が計算する）
-        targets = np.array(
-            [[pose["joints"].get(n, 0.0) for n in self.articulation.dof_names]]
-        )
+        targets = np.array([[pose["joints"].get(n, 0.0) for n in self.dof_names]])
         self.articulation.set_dof_position_targets(targets)
 
         # 腰：目標の位置・向きとのずれに応じて、速度で補助する
