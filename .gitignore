@@ -220,3 +220,5 @@ __marimo__/
 .streamlit/secrets.toml
 
 assets/robots/g1/
+
+logs/

@@ -63,7 +63,7 @@ class VideoRecorder:
     """Isaac Sim のカメラ（プリム）から映像を取り出して MP4 に保存する。"""
 
     def __init__(
-        self, camera_path, output_dir, name="video", resolution=(1920, 1080), fps=30
+        self, camera_path, video_dir, name="video", resolution=(1920, 1080), fps=30
     ):
         import omni.kit.app
 
@@ -84,7 +84,7 @@ class VideoRecorder:
 
         stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.writer = Mp4Writer(
-            Path(output_dir) / f"{name}_{stamp}.mp4", self.width, self.height, fps
+            Path(video_dir) / f"{name}_{stamp}.mp4", self.width, self.height, fps
         )
         print(f"[isaac_video] 録画を開始します: {self.writer.path}")
 

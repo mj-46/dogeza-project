@@ -6,7 +6,7 @@
 | 項目 | バージョン・内容 |
 |---|---|
 | OS | Ubuntu 24.04　LTS |
-| Isaac Sim | 6.1.0（`~/isaacsim` にインストール） |
+| Isaac Sim | 6.2.0（`~/isaacsim` にインストール） |
 | Python | Isaac Sim 付属の Python 3.12（`~/isaacsim/python.sh`） |
 | GPU | NVIDIA RTX 5070ti |
 
@@ -14,7 +14,7 @@
 
 ### 0. 事前準備：Isaac Sim のインストール
 
-[NVIDIA Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/) 6.1.0 を `~/isaacsim` にインストールしてください。
+[NVIDIA Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/) 6.2.0 を `~/isaacsim` にインストールしてください。
 Python は Isaac Sim に付属のもの（`~/isaacsim/python.sh`）を使うため、他のインストールは不要です。
 
 ### 1. フォルダ配置
@@ -82,5 +82,5 @@ dogeza-project/
 - [x] 土下座の姿勢データ（キーフレーム）をキネマティックに再生する
 - [x] 土下座の様子を動画で撮影する
 - [x] キネマティックな再生と同じ動きを物理で実際に動かす
-- [ ] 強化学習で土下座に特化した全身制御を作る
+- [x] 強化学習で土下座に特化した全身制御を作る
 - [ ] 自然言語の指示で土下座させる
