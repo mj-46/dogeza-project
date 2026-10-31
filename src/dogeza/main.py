@@ -29,15 +29,6 @@ def run(simulation_app, duration, record=False):
     simulation_app.update()
     articulation = control.get_articulation(stage)
 
-    # 立つ → 土下座 → 立つ の動きを読み込む
-    # motion = keyframes.load_motion("unitree_g1_dogeza_motion.json")
-
-    # キネマティックな再生
-    # step = kinematics_player.KeyframePlayer(articulation, motion)
-
-    # 物理での再生
-    # step = physics_player.PhysicsPlayer(articulation, motion, root_assist=ROOT_ASSIST)
-
     # policyでの再生
     step = policy_player.PolicyPlayer(articulation)
 

@@ -1,3 +1,5 @@
+"""動画保存用。isaac sim起動時に--recordをつけたときに使われる"""
+
 import shutil
 import subprocess
 from datetime import datetime

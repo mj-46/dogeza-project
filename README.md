@@ -1,5 +1,5 @@
 # dogeza-project
-人型ロボット Unitree G1 が Isaac Sim 上で土下座するプロジェクト。強化学習（PPO）で土下座に特化した全身制御を作成する。
+人型ロボット Unitree G1 が Isaac Sim 上で土下座するプロジェクト。強化学習（PPO）で土下座に特化した全身制御を作成し、物理シミュレータ上で表示する。
 
 - **前半**（立位 → 土下座）と**後半**（土下座 → 跪座）の 2 つの方策（.pt）を別々に学習する
 - **姿勢そのもの**（膝・手のひら・頭が床につく、かかととお尻が近い など）に報酬を与える
@@ -116,7 +116,6 @@ dogeza-project/
     │       ├── loader.py          # URDF → USD 変換、G1 と手足の当たり判定の追加
     │       ├── control.py         # 関節の操作（Articulation の取得、姿勢の設定）
     │       ├── keyframes.py       # キーフレームの読み込みと補間
-    │       ├── kinematics_player.py  # 姿勢をそのまま再生する
     │       ├── physics_player.py  # 姿勢を目標に、物理で動かす
     │       └── policy_player.py   # 学習した方策で動かす（前半 → 後半、カメラを変えて 3 テイク）
     ├── dogeza_rl/                 # 強化学習（Isaac Lab のタスク）
