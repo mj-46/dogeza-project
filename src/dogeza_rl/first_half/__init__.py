@@ -1,3 +1,5 @@
+"""isaaclab_学習用"""
+
 """前半（立つ → 土下座）のタスクの登録。"""
 
 import gymnasium as gym

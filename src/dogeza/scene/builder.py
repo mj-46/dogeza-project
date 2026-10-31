@@ -1,3 +1,5 @@
+"""isaac sim_再生用"""
+
 import omni.usd
 from pxr import Gf, PhysxSchema, UsdGeom, UsdLux, UsdPhysics, UsdShade
 

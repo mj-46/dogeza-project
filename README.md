@@ -46,7 +46,7 @@ Python は Isaac Sim に付属のものを使うため、ほかのインスト�
 mkdir -p ~/workspace && cd ~/workspace
 
 # このリポジトリ
-git clone https://github.com/mj46/dogeza-project.git
+git clone https://github.com/mj-46/dogeza-project.git
 
 # Unitree G1 のモデル（URDF）
 git clone --depth 1 https://github.com/unitreerobotics/unitree_ros.git

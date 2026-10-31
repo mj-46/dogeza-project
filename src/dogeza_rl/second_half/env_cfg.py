@@ -1,3 +1,5 @@
+"""isaaclab_学習用"""
+
 """後半（土下座 → 跪座）の学習環境の設定。前半の設定（first_half/env_cfg.py）を引き継ぎ、違うところだけを書く。"""
 
 from isaaclab.utils import configclass
