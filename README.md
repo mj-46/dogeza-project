@@ -11,7 +11,7 @@
 |---|---|
 | OS | Ubuntu 24.04 LTS |
 | Isaac Sim | 6.2.0（`~/isaacsim` にインストール） |
-| Isaac Lab | 3.0（学習・学習結果の再生に使用。`~/IsaacLab` にインストール） |
+| Isaac Lab | 3.0（学習時に使用。`~/IsaacLab` にインストール） |
 | 強化学習 | RSL-RL（PPO。Isaac Lab に付属） |
 | Python | Isaac Sim 付属の Python 3.12（`~/isaacsim/python.sh`） |
 | GPU | NVIDIA RTX 5070 Ti |
@@ -63,7 +63,6 @@ cd ~/workspace/dogeza-project
 ```
 
 - 初回は URDF から G1 の USD を自動で作ります（`assets/robots/g1/`）
-- 秒数やカメラは `src/dogeza/g1/policy_player.py` の先頭（`STAND_S` / `DOWN_S` / `UP_S` / `CAMERAS`）で変えられます
 
 ### 4. 学習（Isaac Lab）
 
@@ -76,17 +75,6 @@ cd ~/workspace/dogeza-project
 ```
 
 学習結果は `logs/rsl_rl/dogeza_g1_down/`（前半）・`logs/rsl_rl/dogeza_g1_up/`（後半）に、200 回ごとに保存されます。
-
-### 5. 学習結果の確認と書き出し
-
-```bash
-~/IsaacLab/_isaac_sim/python.sh scripts/play.py --task dogeza-first-half
-~/IsaacLab/_isaac_sim/python.sh scripts/play.py --task dogeza-second-half --checkpoint logs/rsl_rl/dogeza_g1_up/<日時>/model_200.pt
-```
-
-再生すると、推論用の方策が `logs/rsl_rl/<実験名>/<日時>/exported/policy.pt` に書き出されます。
-これを `assets/policies/dogeza_first_half.pt`（前半）・`assets/policies/dogeza_second_half.pt`（後半）としてコピーすると、手順 3 で使われます。
-
 
 ## フォルダ構成
 
