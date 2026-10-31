@@ -1,4 +1,4 @@
-"""土下座（前半：立つ → 土下座）の学習環境の設定（数値・条件だけを書く。計算は env.py）。"""
+"""前半（立つ → 土下座）の学習環境の設定（数値・条件だけを書く。計算は env.py）。後半の設定はこれを引き継ぐ。"""
 
 import json
 import math
@@ -15,7 +15,7 @@ from isaaclab_physx.physics import PhysxCfg
 
 # dogeza-project で URDF から変換した G1（先に scripts/run.py を 1 回実行して作っておく）
 G1_USD = str(
-    Path(__file__).resolve().parents[2]
+    Path(__file__).resolve().parents[3]
     / "assets"
     / "robots"
     / "g1"
@@ -23,8 +23,8 @@ G1_USD = str(
     / "g1_29dof_rev_1_0.usda"
 )
 
-
-POSES_DIR = Path(__file__).resolve().parents[2] / "assets" / "poses"
+# 保存した姿勢（assets/poses/）を使う。お手本の動きの JSON は使わない
+POSES_DIR = Path(__file__).resolve().parents[3] / "assets" / "poses"
 
 
 def load_pose(name):
@@ -97,6 +97,8 @@ class DogezaSceneCfg(InteractiveSceneCfg):
 
 @configclass
 class DogezaEnvCfg(DirectRLEnvCfg):
+    """前半：立つ → 土下座。"""
+
     # ---- 時間 ----
     decimation = 4  # 物理 4 回に 1 回、方策が判断する（200Hz ÷ 4 = 50Hz）
     episode_length_s = (
@@ -122,7 +124,7 @@ class DogezaEnvCfg(DirectRLEnvCfg):
     # 行動 1.0 = 土下座の最終姿勢から 1 rad。行動 0 なら「土下座の姿勢になれ」という目標になる
     action_scale = 1.0
 
-    # ---- 開始姿勢（assets/poses/ の立ち姿勢か土下座） ----
+    # ---- 開始姿勢 ----
     start_stand_ratio = (
         0.6  # 立ち姿勢から始める割合（残りは土下座の最終姿勢から。完成を保つ練習）
     )
@@ -163,6 +165,7 @@ class DogezaEnvCfg(DirectRLEnvCfg):
     min_torso_z = 0.15
     min_thigh_z = 0.12
     # 脚を伸ばしたまま顔から倒れた：腰が前に 70° 以上傾いているのに、かかと〜お尻が 0.3 m 以上離れている
+    # （お手本では 70° 以上傾くのは土下座のときだけで、そのときかかと〜お尻は 0.14 m）
     face_down_pitch_deg = 70.0
     face_down_heel_butt = 0.3
 

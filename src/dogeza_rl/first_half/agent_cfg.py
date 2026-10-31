@@ -19,6 +19,7 @@ class DogezaPPORunnerCfg(RslRlOnPolicyRunnerCfg):
         hidden_dims=[512, 256, 128],
         activation="elu",
         obs_normalization=True,  # 観測の大きさのばらつきを自動でそろえる（推論用の .pt にも含まれる）
+        # 試行錯誤の揺らぎの大きさ（最初の値）[rad]。0.1 で約 6° の揺らぎ
         distribution_cfg=RslRlMLPModelCfg.GaussianDistributionCfg(init_std=0.1),
     )
     # 価値（今の状態がどれだけ良いかを見積もるネットワーク。学習中だけ使う）
@@ -31,7 +32,6 @@ class DogezaPPORunnerCfg(RslRlOnPolicyRunnerCfg):
         value_loss_coef=1.0,
         use_clipped_value_loss=True,
         clip_param=0.2,
-        # 揺らぎを大きく保とうとする力。0 にして、揺らぎは「うまくいくかどうか」だけで決まるようにする
         entropy_coef=0.0,
         num_learning_epochs=5,
         num_mini_batches=4,

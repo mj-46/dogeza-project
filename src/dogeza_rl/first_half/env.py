@@ -1,4 +1,4 @@
-"""土下座（前半：立つ → 土下座）の学習環境の本体。お手本はなぞらせず、土下座の姿勢そのものに報酬を与える。"""
+"""前半（立つ → 土下座）の学習環境の本体。お手本はなぞらせず、土下座の姿勢そのものに報酬を与える。後半の環境はこれを引き継ぐ。"""
 
 import math
 
@@ -7,7 +7,7 @@ from isaaclab.envs import DirectRLEnv
 from pxr import Gf, Usd, UsdGeom, UsdPhysics
 
 from dogeza.g1.loader import CONTACT_BOXES
-from dogeza_rl.env_cfg import GOAL_JOINTS, DogezaEnvCfg, load_pose
+from dogeza_rl.first_half.env_cfg import GOAL_JOINTS, DogezaEnvCfg, load_pose
 
 # 体の部位に固定した「測る点」（その部位から見た位置 [m]。URDF のメッシュから求めた）
 HEEL = (
@@ -32,13 +32,15 @@ PALM = (
 
 
 class DogezaEnv(DirectRLEnv):
+    """前半：立つ → 土下座。"""
+
     cfg: DogezaEnvCfg
 
     def __init__(self, cfg: DogezaEnvCfg, render_mode=None, **kwargs):
         super().__init__(cfg, render_mode, **kwargs)
         self.robot = self.scene["robot"]
 
-        # 開始姿勢（assets/poses/ の立ち姿勢と土下座）を、Isaac Lab の関節の並び順の tensor にする
+        # 開始姿勢を、Isaac Lab の関節の並び順の tensor にする
         names = self.robot.joint_names
 
         def pose(name):
@@ -100,7 +102,7 @@ class DogezaEnv(DirectRLEnv):
     # ---- 舞台 ----
 
     def _setup_scene(self):
-        """dogeza-project と同じく、手と足に箱形の当たり判定を足す（物理の開始前に呼ばれる）。"""
+        """手と足に箱形の当たり判定を足す（物理の開始前に呼ばれる）。"""
         stage = self.sim.stage
         for env_path in self.scene.env_prim_paths:
             robot = stage.GetPrimAtPath(f"{env_path}/Robot")
@@ -303,11 +305,11 @@ class DogezaEnv(DirectRLEnv):
         self.robot.reset(env_ids)
         super()._reset_idx(env_ids)
 
-        # 開始姿勢
+        # 開始姿勢：立ち姿勢（そのまま）か、土下座（関節に少しばらつき）。速さは 0
         k = len(env_ids)
         dogeza = (
             torch.rand(k, 1, device=self.device) >= self.cfg.start_stand_ratio
-        ).float()
+        ).float()  # 1 = 土下座から
         root = dogeza * self.dogeza_root + (1 - dogeza) * self.stand_root
         root[:, :3] += self.scene.env_origins[env_ids]
         noise = self.cfg.start_joint_noise * (

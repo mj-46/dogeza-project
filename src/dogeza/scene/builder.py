@@ -66,12 +66,27 @@ def _add_camera(stage, path, eye, target, focal_length=24.0):
     return cam
 
 
-def add_cameras(stage):
-    """撮影用カメラ。ロボットは原点で +X 方向を向く想定。"""
+def move_record_camera(path):
+    """録画用カメラを、path のカメラと同じ位置・向きに移す（録画中でもそのまま映像に反映される）。"""
+    stage = omni.usd.get_context().get_stage()
+    src = stage.GetPrimAtPath(path)
+    dst = stage.GetPrimAtPath("/World/Cameras/Record")
+    matrix = src.GetAttribute("xformOp:transform").Get()
+    dst.GetAttribute("xformOp:transform").Set(matrix)
+
+
+def add_cameras(stage, target=(-0.15, 0.0, 0.6)):
+    """撮影用カメラ（テイクごとに切り替える 3 台）"""
     UsdGeom.Xform.Define(stage, "/World/Cameras")
+    _add_camera(stage, "/World/Cameras/Side", eye=(-0.15, -3.8, 0.75), target=target)
     _add_camera(
-        stage, "/World/Cameras/FrontLeft", eye=(3.0, 2.0, 2.0), target=(0.1, -0.1, 0.5)
+        stage,
+        "/World/Cameras/FrontLeft",
+        eye=(2.9, 2.4, 1.3),
+        target=(-0.15, 0.0, 0.62),
     )
+    _add_camera(stage, "/World/Cameras/Front", eye=(3.4, 0.0, 0.85), target=target)
+    _add_camera(stage, "/World/Cameras/Record", eye=(-0.15, -3.8, 0.75), target=target)
 
 
 def build_scene():

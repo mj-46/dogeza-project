@@ -63,7 +63,7 @@ class VideoRecorder:
     """Isaac Sim のカメラ（プリム）から映像を取り出して MP4 に保存する。"""
 
     def __init__(
-        self, camera_path, video_dir, name="video", resolution=(1920, 1080), fps=30
+        self, camera_path, video_dir, name="video", resolution=(1920, 1080), fps=60
     ):
         import omni.kit.app
 

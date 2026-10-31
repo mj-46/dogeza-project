@@ -7,7 +7,7 @@ from dogeza.g1 import control, loader, policy_player
 from dogeza.scene import builder, runner
 from isaac_video.recorder import VideoRecorder
 
-CAMERA = "/World/Cameras/FrontLeft"
+CAMERA = "/World/Cameras/Record"
 VIDEO_DIR = Path(__file__).resolve().parents[2] / "videos"
 ROOT_ASSIST = 0.1  # 腰の補助（0 = 純粋な物理, 1 = 強く補助）
 
