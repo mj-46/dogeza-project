@@ -1,7 +1,11 @@
 {
-  "description": "跪座（つま先を立てた正座で、上体を起こした姿勢。後半の目標の候補）",
+  "description": "跪座（つま先を立てた正座で、上体を起こした姿勢）。腕は、上体の前傾や腕のずれがあっても脚に当たらないよう、肩を外へ 0.35 rad・前へ 0.2 rad 広げた",
   "units": "m, rad",
-  "pelvis_position": [-0.4026, -0.0385, 0.3632],
+  "pelvis_position": [
+    -0.4026,
+    -0.0385,
+    0.3632
+  ],
   "pelvis_pitch": 0.0754,
   "joints": {
     "left_hip_pitch_joint": -1.0273,
@@ -19,19 +23,19 @@
     "waist_yaw_joint": 0.0,
     "waist_roll_joint": 0.0,
     "waist_pitch_joint": -0.0169,
-    "left_shoulder_pitch_joint": 0.23,
-    "left_shoulder_roll_joint": 0.3445,
-    "left_shoulder_yaw_joint": -0.5555,
-    "left_elbow_joint": 0.5384,
-    "left_wrist_roll_joint": 1.1355,
-    "left_wrist_pitch_joint": 0.0544,
-    "left_wrist_yaw_joint": 0.8953,
-    "right_shoulder_pitch_joint": 0.23,
-    "right_shoulder_roll_joint": -0.3445,
-    "right_shoulder_yaw_joint": 0.5555,
-    "right_elbow_joint": 0.5384,
-    "right_wrist_roll_joint": -1.1355,
-    "right_wrist_pitch_joint": 0.0544,
-    "right_wrist_yaw_joint": -0.8953
+    "left_shoulder_pitch_joint": -0.2209,
+    "left_shoulder_roll_joint": 0.7044,
+    "left_shoulder_yaw_joint": -0.5826,
+    "left_elbow_joint": 0.7418,
+    "left_wrist_roll_joint": 1.1003,
+    "left_wrist_pitch_joint": -0.0702,
+    "left_wrist_yaw_joint": 0.6113,
+    "right_shoulder_pitch_joint": -0.2209,
+    "right_shoulder_roll_joint": -0.7044,
+    "right_shoulder_yaw_joint": 0.5826,
+    "right_elbow_joint": 0.7418,
+    "right_wrist_roll_joint": -1.1003,
+    "right_wrist_pitch_joint": -0.0702,
+    "right_wrist_yaw_joint": -0.6113
   }
 }
