@@ -96,11 +96,14 @@ dogeza-project/
 │   └── play.py                    # 学習結果の再生と方策の書き出し（--task で前半・後半を指定）
 └── src/
     ├── dogeza/                    # 土下座プロジェクト本体（Isaac Sim 起動後の処理）
+    │   ├── __init__.py 
     │   ├── main.py                # 全体の流れ（舞台 → G1 → 動作 → 実行・録画）
     │   ├── scene/
+        │   ├── __init__.py 
     │   │   ├── builder.py         # ステージ・物理・床・照明・カメラ
     │   │   └── runner.py          # 実際の経過時間で動かす（録画しないとき）
     │   └── g1/
+        │   ├── __init__.py 
     │       ├── loader.py          # URDF → USD 変換、G1 と手足の当たり判定の追加
     │       ├── control.py         # 関節の操作（Articulation の取得、姿勢の設定）
     │       ├── keyframes.py       # キーフレームの読み込みと補間
